@@ -3,8 +3,8 @@ You can view my website at: https://r0gu3.me/
 
 Projects Architecture 
 
-![alt text](https://github.com/[KareemMoataz02
-]/[Aws-resume-challenge]/blob/[main]/Architecture 2D.png?raw=true)
+![alt text](https://github.com/KareemMoataz02
+/Aws-resume-challenge/blob/main/Architecture 2D.png?raw=true)
 
 Project Steps
 
@@ -69,4 +69,4 @@ Workflow tests Lambda Function whenever there is a change to Python code and com
 
 13. CI/CD Frontend
 
-2nd GitHub Actions Workflow created to use Terraform apply whenever a file in the frontend directory is updated whether it be a .tf file or a file for the website (html, css, js)
+2nd GitHub Actions Workflow created to use Terraform apply whenever a file in the frontend directory is updated in angular and synced to S3 bucket
