@@ -39,7 +39,7 @@ Another table was made to store .tfstate
 
 Rest API allows access to URL endpoint to accept GET and POST methods
 When API URL is accessed the Lambda function is invoked, returning data from DynamoDB table
-CORS Enabled Which took the most time :)
+CORS Enabled ---> Which took the most time :)
 
 **8. Python**
 
