@@ -1,0 +1,100 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'back-end/**'
+
+jobs:
+  test-lambda:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          path: 'back-end'
+
+      - name: Setup Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+      
+      - name: Install dependencies
+        run: |
+          cd back-end
+          python -m pip install --upgrade pip
+          pip install boto3
+          pip install moto
+          pip install pytest
+          pip install -r requirements.txt
+        working-directory: ./back-end
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Test Lambda with pytest
+        shell: pwsh
+        run: |
+          cd back-end
+          python 'test_get.py'
+        working-directory: ./back-end
+
+      - name: Test Lambda with pytest
+        shell: pwsh
+        run: |
+          cd back-end
+          python 'test_post.py'
+        working-directory: ./back-end
+
+      - name: Package Lambda function
+        if: ${{ job.status == 'success' }}
+        run: |
+          cd back-end
+          zip -r9 post.zip post.py
+        working-directory: ./back-end
+
+  terraform-apply:
+    needs: test-lambda
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          path: 'back-end'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with: 
+          terraform_version: 1.4.0
+      
+      - name: Terraform Init
+        id: init
+        run: cd back-end && terraform init
+        working-directory: ./back-end
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: cd back-end && terraform apply -auto-approve -input=false
+        working-directory: ./back-end
+        

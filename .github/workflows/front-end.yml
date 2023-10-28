@@ -1,0 +1,65 @@
+name: Frontend CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+
+jobs:
+  terraform-apply:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          path: 'frontend'
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+         node-version: 14
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: Install Node modules
+        run: npm install
+        working-directory: ./frontend
+
+      - name: Build Angular App
+        run:  ng build --configuration production
+        working-directory: ./frontend
+        
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with: 
+          terraform_version: 1.4.0
+      
+      - name: Terraform Init
+        id: init
+        run: cd .. && cd back-end && terraform init 
+        working-directory: ./back-end
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: cd back-end && terraform apply -auto-approve -input=false
+        working-directory: ./back-end
+        
+      
+      - name: Sync Angular with S3
+        run: |
+              aws s3 sync ./frontend/dist/ s3://aws-angular-app-bucket/
+              aws cloudfront create-invalidation --distribution-id E1Q2JXWYKD0IYS --paths "/*"
