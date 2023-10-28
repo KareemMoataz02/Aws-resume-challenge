@@ -25,6 +25,12 @@ jobs:
       - name: Install Angular CLI
         run: npm install -g @angular/cli
 
+      - name: Install Angular Dependencies
+        run: |
+          cd front-end
+          npm install
+        working-directory: front-end
+
       - name: Build Angular App
         run: |
           cd front-end
