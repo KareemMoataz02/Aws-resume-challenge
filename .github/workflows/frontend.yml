@@ -29,13 +29,13 @@ jobs:
         run: |
           cd front-end
           npm install
-        working-directory: front-end
+        working-directory: ./front-end
 
       - name: Build Angular App
         run: |
           cd front-end
           ng build --configuration production
-        working-directory: front-end
+        working-directory: ./front-end
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -46,6 +46,7 @@ jobs:
 
       - name: Sync Angular with S3
         run: |
-          aws s3 sync ./front-end/dist/ s3://aws-angular-app-bucket/
+          cd front-end
+          aws s3 sync ./dist/ s3://aws-angular-app-bucket/
           aws cloudfront create-invalidation --distribution-id E1Q2JXWYKD0IYS --paths "/*"
-        working-directory: front-end
+        working-directory: ./front-end
