@@ -50,3 +50,5 @@ resource "aws_route53_record" "myapp" {
   depends_on = [module.zones, module.cloudfront_s3]
 }
 
+
+
