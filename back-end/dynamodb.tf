@@ -32,3 +32,5 @@ resource "aws_dynamodb_table" "terraform-state" {
     Name = "Terraform State Lock"
   }
 }
+
+
