@@ -48,3 +48,4 @@ jobs:
         run: |
           aws s3 sync ./front-end/dist/ s3://aws-angular-app-bucket/
           aws cloudfront create-invalidation --distribution-id E1Q2JXWYKD0IYS --paths "/*"
+        working-directory: front-end
