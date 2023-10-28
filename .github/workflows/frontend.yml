@@ -29,8 +29,9 @@ jobs:
         run: npm install -g @angular/cli
 
       - name: Install Node modules
-        run:  npm init
-              npm install
+        uses: actions/setup-node@v3
+      - run: npm ci
+      - run: npm test
         working-directory: ./front-end
 
       - name: Build Angular App
