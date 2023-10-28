@@ -2,7 +2,9 @@ import json
 import boto3
 
 dynamodb = boto3.resource('dynamodb')
-table_name = 'visit-counter'  # Consider using an environment variable for the table name
+# Consider using an environment variable for the table name
+table_name = 'visit-counter'
+
 
 def increment_visitor_count(event, context):
     # Parse the query parameters from the API Gateway event
@@ -29,8 +31,10 @@ def increment_visitor_count(event, context):
                 'site_id': site_id
             },
             UpdateExpression=update_expression,
-            ExpressionAttributeValues={':c': 1, ':init': 0},  # Increment by 1, initialize to 0 if it doesn't exist
-            ExpressionAttributeNames=expression_attribute_names  # Use the defined expression attribute names
+            # Increment by 1, initialize to 0 if it doesn't exist
+            ExpressionAttributeValues={':c': 1, ':init': 0},
+            # Use the defined expression attribute names
+            ExpressionAttributeNames=expression_attribute_names
         )
 
         # Retrieve the updated count after the increment
@@ -51,7 +55,8 @@ def increment_visitor_count(event, context):
             'body': json.dumps({'count': updated_count}),
             'headers': {
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST',  # Adjust the allowed HTTP methods as needed
+                # Adjust the allowed HTTP methods as needed
+                'Access-Control-Allow-Methods': 'GET, POST',
                 'Access-Control-Allow-Headers': 'Content-Type',  # Specify allowed headers
             }
         }
@@ -64,5 +69,7 @@ def increment_visitor_count(event, context):
         }
 
 # This is the AWS Lambda entry point
+
+
 def lambda_handler(event, context):
     return increment_visitor_count(event, context)
