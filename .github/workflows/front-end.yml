@@ -57,7 +57,6 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: cd back-end && terraform apply -auto-approve -input=false
         working-directory: ./back-end
-        
       
       - name: Sync Angular with S3
         run: |
