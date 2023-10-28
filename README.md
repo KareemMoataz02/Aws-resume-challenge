@@ -71,4 +71,5 @@ Workflow tests Lambda Function whenever there is a change to Python code and com
 2nd GitHub Actions Workflow created to use Terraform apply whenever a file in the frontend directory is updated in angular and synced to S3 bucket
 
 **14. Monitoring**
+
 Used CloudWatch and DataDog for Monitoring API Gateway performance and Lamda Execution
