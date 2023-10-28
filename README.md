@@ -1,7 +1,7 @@
 
 You can view my website at: https://r0gu3.me/
 
-**Projects Architecture**
+**Project Architecture**
 
 <img src="./Architecture3D.png" alt="Website Architecture Diagram" width="100%" height="56.25%">
 
