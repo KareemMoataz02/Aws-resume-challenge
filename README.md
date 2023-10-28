@@ -3,9 +3,7 @@ You can view my website at: https://r0gu3.me/
 
 Projects Architecture 
 
-![alt text](https://github.com/KareemMoataz02
-/Aws-resume-challenge/blob/main/Architecture 2D.png?raw=true)
-<img src="./Architecture2D.png" alt="Website Architecture Diagram" width="100%" height="56.25%">
+<img src="./Architecture3D.png" alt="Website Architecture Diagram" width="100%" height="56.25%">
 Project Steps
 
 1. Front-End
