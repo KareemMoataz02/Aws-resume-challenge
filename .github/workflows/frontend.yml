@@ -46,6 +46,9 @@ jobs:
 
       - name: Sync Angular with S3
         run: |
-          aws s3 sync ./front-end/dist/ s3://aws-angular-app-bucket/
-          aws cloudfront create-invalidation --distribution-id E1Q2JXWYKD0IYS --paths "/*"
+          cd front-end
+          ls
         working-directory: ./front-end
+
+        #  aws s3 sync ./front-end/dist/ s3://aws-angular-app-bucket/
+        #   aws cloudfront create-invalidation --distribution-id E1Q2JXWYKD0IYS --paths "/*"
