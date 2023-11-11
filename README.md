@@ -18,7 +18,7 @@ Used CloudFront to enable HTTPS and caching at edge locations
 
 **4. DNS**
 
-Route 53 was utilized to create my domain name (https://r0gu3.me/)
+Route 53 was utilized to create my domain name (https://r0gu3.me/) "Currently down because of expenses"
 Attached an SSL Certificate to CloudFront for alternate names
 
 **5. Javascript**
